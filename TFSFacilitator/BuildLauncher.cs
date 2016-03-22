@@ -11,6 +11,9 @@ namespace TFSFacilitator
     public class BuildLauncher
     {
         private const string apiVersion = "2.1";
+        private const string area = "build";
+        private const string resource = "builds";
+
 
         // VERB https://{instance}[/{collection}[/{team-project}]/_apis[/{area}]/{resource}?api-version={version}
         private string tfsUri =
@@ -18,12 +21,18 @@ namespace TFSFacilitator
 
         private bool bUseHttps = false;
         private string instance = "server:port/tfs";
+        private string sourceBranch;
 
         private string collection;
         private string teamProject;
 
         private string userName = null;
         private string passWord = null;
+
+        public BuildLauncher(string userName = null, string passWord = null)
+        {
+            SetVarsInTFSContext();
+        }
 
         public BuildLauncher(string serverName, string serverPort, bool bUseHttps = false)
         {
@@ -47,19 +56,34 @@ namespace TFSFacilitator
 
         private void SetVarsInTFSContext()
         {
+            // Given http://localhost:8080/tfs/DefaultCollection/Test
 
-            // System.TeamFoundationCollectionUri
-            // System.TeamProject
-            // Build.SourceBranchName
+            // SYSTEM_TEAMFOUNDATIONCOLLECTIONURI
+            //http://sith:8080/tfs/DefaultCollection/
+            string tempUri = System.Environment.GetEnvironmentVariable("SYSTEM_TEAMFOUNDATIONCOLLECTIONURI");
+            if (!string.IsNullOrEmpty(tempUri))
+            {
+                tfsUri = tfsUri.Replace("{ protocol}://{instance}/{collection})", tempUri);
+            }
+
+            // SYSTEM_TEAMPROJECT
+            // Test
+            string teamProject = System.Environment.GetEnvironmentVariable("SYSTEM_TEAMPROJECT");
+            if (!string.IsNullOrEmpty(teamProject))
+            {
+                tfsUri = tfsUri.Replace("{team-project}", teamProject);
+            }
+
+            // BUILD_SOURCEBRANCH
+            // refs/heads/master
+            //BUILD_SOURCEBRANCHNAME
+            // master
+            sourceBranch = System.Environment.GetEnvironmentVariable("BUILD_SOURCEBRANCH");
+            
         }
 
 
-        public string GetRequestUri(string collection, string project, string area, string resource)
-        {
-            return GetRequestUri(collection, project, area, resource, apiVersion);
-        }
-
-        public string GetRequestUri(string collection, string project, string area, string resource, string version)
+        public string GetRequestUri(string collection, string project, string version = apiVersion)
         {
             if (string.IsNullOrEmpty(instance) || string.IsNullOrEmpty(collection) || string.IsNullOrEmpty(project)
                 || string.IsNullOrEmpty(resource)) throw new Exception("Missing TFS Request Parameters");
@@ -78,22 +102,43 @@ namespace TFSFacilitator
 
         private string GetQueueBuildRequestUri()
         {
-            return string.Empty;
-            //return GetRequestUri();
+            
+            if (!tfsUri.Contains("{protocol}://{instance}/{collection}"))
+            {
+                return GetRequestUri(collection, teamProject);
+            }
+            else
+            {
+                tfsUri = tfsUri.Replace("{area}", area);
+                tfsUri = tfsUri.Replace("{resource}", resource);
+                tfsUri = tfsUri.Replace("{version}", apiVersion);
+                return tfsUri;
+            }
+           
         }
     
 
         public async Task QueueBuild(string buildId)
         {
-            var obj = new
+            dynamic obj = new
             {
                 definition = new
                 {
                     id = buildId,
                     type = "build"
-                }
+                }                
             };
-            //"sourceBranch": "refs/heads/master"
+            
+
+            if (!string.IsNullOrEmpty(sourceBranch))
+            {
+                obj = new
+                {
+                    obj,
+                    sourceBranch = sourceBranch
+                    //"sourceBranch": "refs/heads/master"
+                };
+            }
 
             System.Web.Script.Serialization.JavaScriptSerializer js =
                 new System.Web.Script.Serialization.JavaScriptSerializer();

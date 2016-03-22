@@ -15,7 +15,7 @@ namespace TFSFacilitatorUnitTest
 
             string expectedUri = "http://localhost:8080/tfs/DefaultCollection/Test/_apis/build/builds?api-version=2.1";
 
-            var actualUri = buildLauncher.GetRequestUri("DefaultCollection", "Test", "build", "builds");
+            var actualUri = buildLauncher.GetRequestUri("DefaultCollection", "Test");
             Assert.AreEqual(expectedUri,actualUri);
 
         }
