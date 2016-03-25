@@ -1,2 +1,4 @@
 ﻿language: csharp
-solution: TFSFacilitator.sln
+
+script:
+  - xbuild /p:Configuration=Release TFSFacilitator.sln
