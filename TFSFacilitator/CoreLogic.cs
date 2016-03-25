@@ -55,7 +55,6 @@ namespace TFSFacilitator
 
         private async Task Poll()
         {
-            
             CancellationToken cancellation = _cts.Token;
 
             TimeSpan[] intervals =
@@ -73,7 +72,6 @@ namespace TFSFacilitator
                 try
                 {
                 
-
                     //bool ret = await Task.Run(() => );
                     //if (.HasStopped)
                     //{
