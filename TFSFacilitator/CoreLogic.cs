@@ -25,24 +25,16 @@ namespace TFSFacilitator
                 Console.WriteLine("Exception: {0}", exception);
             }
         }
-        // probably not needed
-        //protected void OnPause()
-        //{
-        //    Console.WriteLine("In OnPause");
-        //    serviceCoreLogic.StopUpdates = true;
-        //    while (!serviceCoreLogic.HasStopped)
-        //    {
-        //        RequestAdditionalTime(200000);
-        //        Thread.Sleep(120000);
-        //    }
-        //}
 
         protected void OnStop()
         {
             Console.WriteLine("In OnStop");
             
         }
-
+        
+        /// <summary>
+        /// Main Entry launch point
+        /// </summary>
         public void Launch()
         {
             // TODO: Launch all TFS builds here
