@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TFSFacilitator", "TFSFacilitator.csproj", "{5F7803D7-B21F-4DDA-B547-06345ACA3329}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TFSFacilitator", "TFSFacilitator\TFSFacilitator.csproj", "{5F7803D7-B21F-4DDA-B547-06345ACA3329}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TFSFacilitatorUnitTest", "..\TFSFacilitatorUnitTest\TFSFacilitatorUnitTest.csproj", "{2C0B3E90-7ACF-4EB6-B63C-CC83BF92C55F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TFSFacilitatorUnitTest", "TFSFacilitatorUnitTest\TFSFacilitatorUnitTest.csproj", "{2C0B3E90-7ACF-4EB6-B63C-CC83BF92C55F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDriver", "..\TestDriver\TestDriver.csproj", "{AF909F3E-7A41-4021-AF46-17963D24B1CB}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDriver", "TestDriver\TestDriver.csproj", "{AF909F3E-7A41-4021-AF46-17963D24B1CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
